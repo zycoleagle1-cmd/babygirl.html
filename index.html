@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎃 Happy Halloween, Babyriza 💖</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Poppins:wght@300;600&display=swap');
+
+  body {
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    transition: background 2s;
+  }
+
+  h1 {
+    font-family: 'Nosifer', cursive;
+    font-size: 3.5em;
+    color: #ff7518;
+    text-shadow: 0 0 20px #ff7518, 0 0 40px #ffae42;
+    animation: flicker 2s infinite;
+    text-align: center;
+    transition: color 2s, text-shadow 2s;
+  }
+
+  h2 {
+    font-size: 1.8em;
+    margin-top: 10px;
+    color: #ffcccc;
+    text-shadow: 0 0 10px #ff66b2, 0 0 20px #ff33cc;
+    animation: pulse 3s ease-in-out infinite;
+    text-align: center;
+    transition: color 2s, text-shadow 2s;
+  }
+
+  @keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.4; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+
+  button {
+    background: linear-gradient(45deg, #ff7518, #ff33cc);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 30px;
+    box-shadow: 0 0 20px #ff33cc;
+    transition: 0.3s;
+    z-index: 3;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px #ff33cc, 0 0 60px #ff7518;
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  #letter {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #ff33cc;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 70%;
+    max-width: 600px;
+    text-align: left;
+    font-size: 1.2em;
+    line-height: 1.6em;
+    box-shadow: 0 0 30px #ff33cc;
+    display: none;
+    z-index: 4;
+    transition: background 2s, border 2s, color 2s;
+  }
+
+  .typewriter {
+    border-right: 2px solid #ff33cc;
+    white-space: pre-wrap;
+    overflow: hidden;
+  }
+
+  .emoji {
+    position: absolute;
+    user-select: none;
+    pointer-events: none;
+    z-index: 2;
+    text-shadow: 0 0 10px #fff, 0 0 20px #ff7518;
+    transition: text-shadow 2s;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+<h1>🎃 Happy Halloween, Babygirlko 💋</h1>
+<h2>My hauntingly beautiful love 👻💖</h2>
+
+<button id="treatBtn">✨ Trick or Treat!</button>
+
+<canvas id="heartCanvas"></canvas>
+<div id="letter" class="typewriter"></div>
+
+<audio id="bg-music" src="https://cdn.pixabay.com/audio/2022/03/29/audio_6f4a03b8b6.mp3" loop></audio>
+
+<script>
+const canvas = document.getElementById("heartCanvas");
+const ctx = canvas.getContext("2d");
+const letterBox = document.getElementById("letter");
+const music = document.getElementById("bg-music");
+const btn = document.getElementById("treatBtn");
+const h1 = document.querySelector("h1");
+const h2 = document.querySelector("h2");
+
+let started = false;
+let drawing = false;
+
+const loveLetter = `
+Dear Babygirlko 💌
+
+i just want to say Happy Halloween and happy another month for us. 
+and thankyou so much for loving me and thankyou always. 
+baby always remember that i love you always, so much.
+my baby happy halloween and always take care.
+imissyouusomuch!! and iloveyouusomuchh!!
+Happy Halloween💖.
+
+You are my forever treat! 😘
+
+— From your babyboy
+`;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Draw glowing heart
+function drawHeart() {
+  const tMax = 2 * Math.PI;
+  let t = 0;
+  drawing = true;
+  const drawInterval = setInterval(() => {
+    if (t > tMax) {
+      clearInterval(drawInterval);
+      drawing = false;
+      showLetter();
+      return;
+    }
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+
+    ctx.fillStyle = `hsl(${(t * 60) % 360}, 100%, 60%)`;
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2 + x * 15, canvas.height / 2 - y * 15, 6, 0, Math.PI * 2);
+    ctx.fill();
+    t += 0.1;
+  }, 30);
+}
+
+// Typewriter effect for letter
+function showLetter() {
+  letterBox.innerHTML = "";
+  letterBox.style.display = "block";
+  let i = 0;
+  const speed = 40;
+  const typing = setInterval(() => {
+    if (i < loveLetter.length) {
+      letterBox.innerHTML += loveLetter.charAt(i);
+      i++;
+    } else {
+      clearInterval(typing);
+      letterBox.classList.remove("typewriter");
+    }
+  }, speed);
+}
+
+// Floating emojis
+function spawnEmojis(emojisArray, intervalTime=300) {
+  return setInterval(() => {
+    const emoji = document.createElement('div');
+    emoji.classList.add('emoji');
+    emoji.textContent = emojisArray[Math.floor(Math.random() * emojisArray.length)];
+    
+    emoji.style.left = Math.random() * window.innerWidth + 'px';
+    emoji.style.top = window.innerHeight + 'px';
+    const size = 2 + Math.random() * 3;
+    emoji.style.fontSize = size + 'em';
+    emoji.style.opacity = 0.7 + Math.random() * 0.3;
+    const duration = 5 + Math.random() * 5;
+    emoji.style.animation = `float ${duration}s linear forwards`;
+    document.body.appendChild(emoji);
+    setTimeout(() => emoji.remove(), duration * 1000);
+  }, intervalTime);
+}
+
+// Start floating Halloween emojis initially
+let emojiInterval = spawnEmojis(['🎃','👻','💀','🦇','🕷️','🕸️','🍬','🔥']);
+
+// Click button
+btn.addEventListener("click", () => {
+  if (!started) {
+    music.play();
+    started = true;
+  }
+  if (!drawing) {
+    // Switch to romantic theme
+    document.body.style.background = 'radial-gradient(circle at center, #ffb6c1 0%, #ff69b4 100%)';
+    h1.textContent = 'I ❤️ You, Babygirlko 💖';
+    h1.style.color = '#ff1493';
+    h1.style.textShadow = '0 0 20px #ff69b4, 0 0 40px #ff1493';
+    h2.textContent = 'My sweet love 🌸💘';
+    h2.style.color = '#fff0f5';
+    h2.style.textShadow = '0 0 10px #ffb6c1, 0 0 20px #ff69b4';
+
+    // Stop Halloween emojis
+    clearInterval(emojiInterval);
+
+    // Spawn romantic emojis
+    emojiInterval = spawnEmojis(['💖','💘','🌸','🌹','💕','💝','🥰','😍'], 200);
+
+    // Clear canvas and draw heart
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    letterBox.style.display = "none";
+    drawHeart();
+  }
+});
+</script>
+</body>
+</html>
